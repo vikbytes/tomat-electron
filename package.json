@@ -12,5 +12,13 @@
   "devDependencies": {
     "electron": "^10.1.5",
     "electron-reloader": "^1.0.1"
+  },
+  "build": {
+    "appId": "com.vikbytes.tomat-electron",
+    "productName": "tomat",
+    "copyright": " Copyright © 2020 Viktor Andersson"
+  },
+  "dependencies": {
+    "electron-store": "^6.0.1"
   }
 }
