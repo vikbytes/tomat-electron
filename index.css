@@ -8,7 +8,7 @@ body {
 }
 
 h1 {
-  margin: 20px 0px 0px 0px;
+  margin: 0px;
 }
 
 h2 {
@@ -24,12 +24,9 @@ ul {
   padding-left: 10px;
 }
 
-.title h1 {
-  font-size: 72px;
-  color: #ff7300;
-  position: relative;
-  top: -20px;
-  left: 20px;
+.title {
+  font-size: 48px;
+  color: #ff3c00;
 }
 
 .links {

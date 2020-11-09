@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>Tomat</title>
+    <title>tomat</title>
     <link rel="stylesheet" href="bootstrap.min.css">
     <link rel="stylesheet" href="index.css">
     <script src="index.js"></script>
@@ -25,7 +25,7 @@
       };
       function update() {
         document.getElementById('update').innerHTML = "Updated!";
-        document.getElementById('update').classList.remove('btn-primary')
+        document.getElementById('update').classList.remove('btn-danger')
         document.getElementById('update').classList.add('btn-success')
         
         ipcRenderer.send('update', {
@@ -38,54 +38,56 @@
         setTimeout(() => {
           document.getElementById('update').innerHTML = "Update";
           document.getElementById('update').classList.remove('btn-success')
-          document.getElementById('update').classList.add('btn-primary')
+          document.getElementById('update').classList.add('btn-danger')
         }, 2000);
         
       }
     </script>
-    <h1>Tomat</h1>
+    <h1 class="title">tomat</h1>
     <br />
-    <h5>Pomodoro app for Windows, Mac and Linux.</h5>
-    <h4 id="text">Change your settings for tomat here:</h4>
-        <div class="form-group row">
-          <label class="col-sm-4 col-form-label" for="breaklength">Break Length: </label>
-          <div class="col-sm-3">
-            <input class="form-control" type="number" id="breaklength" min="1" max="59" value="1">
-          </div>
-        </div>
-        <div class="form-group row">
-          <label class="col-sm-4 col-form-label" for="sessionlength">Session Length: </label>
-          <div class="col-sm-3">
-            <input class="form-control" type="number" id="sessionlength" min="1" max="59" value="1">
-          </div>
-          <p>mins</p>
-        </div>
-        <div class="form-group row">
-          <label class="col-sm-4 col-form-label" for="longbreaklength">Long Break Length: </label>
-          <div class="col-sm-3">
-          <input class="form-control" type="number" id="longbreaklength" min="1" max="59" value="1">
-        </div>
-        <p>mins</p>
-        </div>
-        <div class="form-group row">
-          <label class="col-sm-4 col-form-label" for="starthour">Starting Time: </label>
-          <div class="col-sm-3">
-          <input class="form-control" type="time" id="starthour">
-        </div>
-        </div>
-        <div class="form-group row">
-          <label class="col-sm-4 col-form-label" for="endhour">Ending Time: </label>
-          <div class="col-sm-3">
-          <input class="form-control" type="time" id="endhour">
-        </div>
-        </div>
-        <div class="form-group">
-          <button class="btn btn-primary" id="update" onclick="update()">Update</button>
-        </div>
+    <h5 id="text">Change your settings for tomat here:</h5>
+    <br />
+    <div class="form-group row">
+      <label class="col-sm-5 col-form-label" for="breaklength">Break Length: [mins] </label>
+      <div class="col-sm-3">
+        <input class="form-control" type="number" id="breaklength" min="1" max="59" value="1">
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-sm-5 col-form-label" for="sessionlength">Session Length: [mins] </label>
+      <div class="col-sm-3">
+        <input class="form-control" type="number" id="sessionlength" min="1" max="59" value="1">
+      </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-sm-5 col-form-label" for="longbreaklength">Long Break Length: [mins] </label>
+      <div class="col-sm-3">
+      <input class="form-control" type="number" id="longbreaklength" min="1" max="59" value="1">
+    </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-sm-5 col-form-label" for="starthour">Starting Hour: </label>
+      <div class="col-sm-3">
+      <input class="form-control" type="time" id="starthour">
+    </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-sm-5 col-form-label" for="endhour">Stopping Hour: </label>
+      <div class="col-sm-3">
+      <input class="form-control" type="time" id="endhour">
+    </div>
+    </div>
+    <div class="form-group">
+      <button class="btn btn-danger" id="update" onclick="update()">Update</button>
+    </div>
     </div>
     <br />
+    <p>Insert more settings here relating to notifications, dark mode, and sound settings.</p>
+    <br />
     <div class="footer">
-      Made in the &#10052;&nbsp; by Viktor Andersson @ <a href="https://vikbytes.com" target="_blank">vikbytes.com</a>
+      <p>Made in the &#10052;&nbsp; by Viktor Andersson @ <a href="https://vikbytes.com" target="_blank">vikbytes.com</a></p>
+      <p>twitter</p>
+      <p>github</p>
     </div>
   </body>
 </html>

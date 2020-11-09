@@ -108,33 +108,33 @@ app.on('ready', () => {
 
   // Setup notifications
   const breakNotification = new Notification({
-    title: 'Break',
-    body: 'test',
-    sound: 'absolute/path/to/file.mp3'
+    title: 'tomat',
+    body: 'Take a short break.',
+    sound: 'Blow'
   });
 
   const startNotification = new Notification({
-    title: 'Start',
-    body: 'test',
+    title: 'tomat',
+    body: 'Start a session.',
     sound: 'absolute/path/to/file.mp3'
   })
 
   const longBreakNotification = new Notification({
-    title: 'Long Break',
-    body: 'test',
-    sound: 'absolute/path/to/file.mp3'
+    title: 'tomat',
+    body: 'Take a long break.',
+    sound: 'Ping'
   })
 
   const disabledNotification = new Notification({
-    title: 'Disabled',
-    body: 'test',
-    sound: 'absolute/path/to/file.mp3'
+    title: 'tomat',
+    body: 'tomat disabled.',
+    sound: 'Glass'
   })
 
   const enabledNotification = new Notification({
-    title: 'Enabled',
-    body: 'test',
-    sound: 'absolute/path/to/file.mp3'
+    title: 'tomat',
+    body: 'tomat enabled.',
+    sound: 'Hero'
   })
 
   // Handle item menu interactions
@@ -157,7 +157,7 @@ app.on('ready', () => {
 
   // Tray menu template
   const contextMenu = Menu.buildFromTemplate([
-    { label: 'Tomat', type: 'normal', enabled: false},
+    { label: 'tomat', type: 'normal', enabled: false},
     { label: 'About', type: 'normal', role: 'about'},
     { label: 'Settings', type: 'normal', click: handleClick },
     { label: "sep", type: 'separator'},
@@ -187,21 +187,6 @@ let breakStarted = false
 // Counting variables
 let breakseconds;
 let sessionseconds;
-
-function update() {
-    breakTimer = document.getElementById("breaklength").value;
-    store.set('breakTimer', breakTimer)
-    longBreakTimer = document.getElementById("longbreaklength").value;
-    store.set('longBreakTimer', longBreakTimer)
-    sessionTimer = document.getElementById("sessionlength").value;
-    store.set('sessionTimer', sessionTimer)
-    startHour = document.getElementById("starthour").value;
-    store.set('startHour', startHour)
-    endHour = document.getElementById("endhour").value;
-    store.set('endHour', endHour)
-
-    console.log("Heya")
-}
 
 function convertTimers() {
     breakseconds = breaklength * 60;
