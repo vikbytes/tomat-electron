@@ -1,14 +1,15 @@
 {
   "name": "tomat-electron",
   "version": "1.0.0",
-  "description": "",
+  "description": "A 'pomodoro' style productivity timer.",
+  "homepage": "https://vikbytes.com/tomat",
   "main": "index.js",
   "scripts": {
     "start": "electron .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Viktor Andersson",
+  "license": "MIT",
   "devDependencies": {
     "electron": "^10.1.5",
     "electron-reloader": "^1.0.1"
@@ -19,6 +20,7 @@
     "copyright": " Copyright © 2020 Viktor Andersson"
   },
   "dependencies": {
+    "electron": "^10.1.5",
     "electron-store": "^6.0.1"
   }
 }

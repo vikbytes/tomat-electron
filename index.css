@@ -5,7 +5,7 @@ body {
   font-size: 16px;
   color: rgb(199, 199, 199);
   background-color: rgb(44, 44, 44);
-  font-family: Fira Code, Courier, Palatino, Helvetica Neue, Arial, sans-serif;
+  
 }
 
 h1 {
@@ -60,4 +60,8 @@ a:hover {
 
 a:active {
   color: rgb(255, 172, 94);
+}
+
+.footer {
+  font-size: 12px;
 }

@@ -3,13 +3,68 @@
   <head>
     <meta charset="UTF-8">
     <title>Tomat</title>
+    <link rel="stylesheet" href="bootstrap.min.css">
     <link rel="stylesheet" href="index.css">
+    <script src="index.js"></script>
   </head>
   <body>
+    <script>
+      const {ipcRenderer} = require('electron');
+      ipcRenderer.on('load', (event, arg) => {
+        document.getElementById('breaklength').value = arg.breakTimer;
+        document.getElementById('sessionlength').value = arg.sessionTimer;
+        document.getElementById('longbreaklength').value = arg.longBreakTimer;
+        document.getElementById('starthour').value = arg.startHour;
+        document.getElementById('endhour').value = arg.endHour;
+      })
+      ipcRenderer.on('update', (event, arg) => {
+        // do something
+      })
+      window.onload = function() {
+        ipcRenderer.send('load', '')
+      };
+      function update() {
+        ipcRenderer.send('update', {
+          breakTimer: document.getElementById('breaklength').value,
+          sessionTimer: document.getElementById('sessionlength').value,
+          longBreakTimer: document.getElementById('longbreaklength').value,
+          startHour: document.getElementById('starthour').value,
+          endHour: document.getElementById('endhour').value
+        })
+      }
+    </script>
     <h1>Tomat</h1>
     <p>Pomodoro app for Windows, Mac and Linux.</p>
-    <p>Change your settings for tomat here:</p>
-    <p>...</p>
+    <p id="text">Change your settings for tomat here:</p>
+    <div class="align-items-center">
+      <div class="col">
+        <label for="breaklength">Break Length: </label>
+        <input type="number" id="breaklength" min="1" max="59" value="1">
+      </div>
+      <div class="col">
+        <label for="sessionlength">Session Length: </label>
+        <input type="number" id="sessionlength" min="1" max="59" value="1">
+      </div>
+      <div class="col">
+        <label for="longbreaklength">Long Break Length: </label>
+        <input type="number" id="longbreaklength" min="1" max="59" value="1">
+      </div>
+      <div class="col">
+        <label for="starthour">Starting Time: </label>
+        <input type="time" id="starthour">
+      </div>
+      <div class="col">
+        <label for="endhour">Ending Time: </label>
+        <input type="time" id="endhour">
+      </div>
+      <div class="col">
+        <button id="update" onclick="update()">Update</button>
+      </div>
+    </div>
+    <br />
+    <div class="footer">
+      Made in the &#10052;&nbsp; by Viktor Andersson @ <a href="https://vikbytes.com" target="_blank">vikbytes.com</a>
+    </div>
   </body>
 </html>
 
