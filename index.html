@@ -24,6 +24,10 @@
         ipcRenderer.send('load', '')
       };
       function update() {
+        document.getElementById('update').innerHTML = "Updated!";
+        document.getElementById('update').classList.remove('btn-primary')
+        document.getElementById('update').classList.add('btn-success')
+        
         ipcRenderer.send('update', {
           breakTimer: document.getElementById('breaklength').value,
           sessionTimer: document.getElementById('sessionlength').value,
@@ -31,35 +35,53 @@
           startHour: document.getElementById('starthour').value,
           endHour: document.getElementById('endhour').value
         })
+        setTimeout(() => {
+          document.getElementById('update').innerHTML = "Update";
+          document.getElementById('update').classList.remove('btn-success')
+          document.getElementById('update').classList.add('btn-primary')
+        }, 2000);
+        
       }
     </script>
     <h1>Tomat</h1>
-    <p>Pomodoro app for Windows, Mac and Linux.</p>
-    <p id="text">Change your settings for tomat here:</p>
-    <div class="align-items-center">
-      <div class="col">
-        <label for="breaklength">Break Length: </label>
-        <input type="number" id="breaklength" min="1" max="59" value="1">
-      </div>
-      <div class="col">
-        <label for="sessionlength">Session Length: </label>
-        <input type="number" id="sessionlength" min="1" max="59" value="1">
-      </div>
-      <div class="col">
-        <label for="longbreaklength">Long Break Length: </label>
-        <input type="number" id="longbreaklength" min="1" max="59" value="1">
-      </div>
-      <div class="col">
-        <label for="starthour">Starting Time: </label>
-        <input type="time" id="starthour">
-      </div>
-      <div class="col">
-        <label for="endhour">Ending Time: </label>
-        <input type="time" id="endhour">
-      </div>
-      <div class="col">
-        <button id="update" onclick="update()">Update</button>
-      </div>
+    <br />
+    <h5>Pomodoro app for Windows, Mac and Linux.</h5>
+    <h4 id="text">Change your settings for tomat here:</h4>
+        <div class="form-group row">
+          <label class="col-sm-4 col-form-label" for="breaklength">Break Length: </label>
+          <div class="col-sm-3">
+            <input class="form-control" type="number" id="breaklength" min="1" max="59" value="1">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-sm-4 col-form-label" for="sessionlength">Session Length: </label>
+          <div class="col-sm-3">
+            <input class="form-control" type="number" id="sessionlength" min="1" max="59" value="1">
+          </div>
+          <p>mins</p>
+        </div>
+        <div class="form-group row">
+          <label class="col-sm-4 col-form-label" for="longbreaklength">Long Break Length: </label>
+          <div class="col-sm-3">
+          <input class="form-control" type="number" id="longbreaklength" min="1" max="59" value="1">
+        </div>
+        <p>mins</p>
+        </div>
+        <div class="form-group row">
+          <label class="col-sm-4 col-form-label" for="starthour">Starting Time: </label>
+          <div class="col-sm-3">
+          <input class="form-control" type="time" id="starthour">
+        </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-sm-4 col-form-label" for="endhour">Ending Time: </label>
+          <div class="col-sm-3">
+          <input class="form-control" type="time" id="endhour">
+        </div>
+        </div>
+        <div class="form-group">
+          <button class="btn btn-primary" id="update" onclick="update()">Update</button>
+        </div>
     </div>
     <br />
     <div class="footer">
