@@ -5,89 +5,23 @@
     <title>tomat</title>
     <link rel="stylesheet" href="bootstrap.min.css">
     <link rel="stylesheet" href="index.css">
+    <script src="renderer.js"></script>
     <script src="index.js"></script>
   </head>
   <body>
-    <script>
-      const {ipcRenderer} = require('electron');
-      ipcRenderer.on('load', (event, arg) => {
-        document.getElementById('breaklength').value = arg.breakTimer;
-        document.getElementById('sessionlength').value = arg.sessionTimer;
-        document.getElementById('longbreaklength').value = arg.longBreakTimer;
-        document.getElementById('starthour').value = arg.startHour;
-        document.getElementById('endhour').value = arg.endHour;
-      })
-      ipcRenderer.on('update', (event, arg) => {
-        // do something
-      })
-      window.onload = function() {
-        ipcRenderer.send('load', '')
-      };
-      function update() {
-        document.getElementById('update').innerHTML = "Updated!";
-        document.getElementById('update').classList.remove('btn-danger')
-        document.getElementById('update').classList.add('btn-success')
-        
-        ipcRenderer.send('update', {
-          breakTimer: document.getElementById('breaklength').value,
-          sessionTimer: document.getElementById('sessionlength').value,
-          longBreakTimer: document.getElementById('longbreaklength').value,
-          startHour: document.getElementById('starthour').value,
-          endHour: document.getElementById('endhour').value
-        })
-        setTimeout(() => {
-          document.getElementById('update').innerHTML = "Update";
-          document.getElementById('update').classList.remove('btn-success')
-          document.getElementById('update').classList.add('btn-danger')
-        }, 2000);
-        
-      }
-    </script>
     <h1 class="title">tomat</h1>
     <br />
-    <h5 id="text">Change your settings for tomat here:</h5>
+    <h3 class="activity" id="activity"></h3>
+    <h3 class="timer" id="timer"></h3>
+    <button class="btn btn-primary" id="spbutton" onclick="sp()"><div id="ss"></div></button>
+    <button class="btn btn-warning" id="rbutton" onclick="reset()">Reset</button>
     <br />
-    <div class="form-group row">
-      <label class="col-sm-5 col-form-label" for="breaklength">Break Length: [mins] </label>
-      <div class="col-sm-3">
-        <input class="form-control" type="number" id="breaklength" min="1" max="59" value="1">
-      </div>
-    </div>
-    <div class="form-group row">
-      <label class="col-sm-5 col-form-label" for="sessionlength">Session Length: [mins] </label>
-      <div class="col-sm-3">
-        <input class="form-control" type="number" id="sessionlength" min="1" max="59" value="1">
-      </div>
-    </div>
-    <div class="form-group row">
-      <label class="col-sm-5 col-form-label" for="longbreaklength">Long Break Length: [mins] </label>
-      <div class="col-sm-3">
-      <input class="form-control" type="number" id="longbreaklength" min="1" max="59" value="1">
-    </div>
-    </div>
-    <div class="form-group row">
-      <label class="col-sm-5 col-form-label" for="starthour">Starting Hour: </label>
-      <div class="col-sm-3">
-      <input class="form-control" type="time" id="starthour">
-    </div>
-    </div>
-    <div class="form-group row">
-      <label class="col-sm-5 col-form-label" for="endhour">Stopping Hour: </label>
-      <div class="col-sm-3">
-      <input class="form-control" type="time" id="endhour">
-    </div>
-    </div>
-    <div class="form-group">
-      <button class="btn btn-danger" id="update" onclick="update()">Update</button>
-    </div>
-    </div>
     <br />
-    <p>Insert more settings here relating to notifications, dark mode, and sound settings.</p>
+    <a href="./settings.html"><button class="btn btn-danger" id="update">Settings</button></a>
+    <br />
     <br />
     <div class="footer">
       <p>Made in the &#10052;&nbsp; by Viktor Andersson @ <a href="https://vikbytes.com" target="_blank">vikbytes.com</a></p>
-      <p>twitter</p>
-      <p>github</p>
     </div>
     <div class="version">
       version: 1.0.0
