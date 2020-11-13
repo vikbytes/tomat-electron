@@ -132,43 +132,59 @@ ipcMain.on('update', (event, arg) => {
   store.set('endHour', arg.endHour)
 })
 
+// Setup Notification functions
+
+function breakNotification() {
+  const not = {
+    title: 'tomat',
+    body: 'Take a short break.',
+    sound: 'Blow'
+  }
+  new Notification(not).show()
+}
+
+function startNotification() {
+  const not = {
+    title: 'tomat',
+    body: 'Start a session.',
+    sound: 'Blow'
+  }
+  new Notification(not).show()
+}
+
+function longBreakNotification() {
+  const not = {
+    title: 'tomat',
+    body: 'Take a long break.',
+    sound: 'Ping'
+  }
+  new Notification(not).show()
+}
+
+function disabledNotification() {
+  const not = {
+    title: 'tomat',
+    body: 'tomat disabled.',
+    sound: 'Glass'
+  }
+  new Notification(not).show()
+}
+
+function enabledNotification() {
+  const not = {
+    title: 'tomat',
+    body: 'tomat enabled.',
+    sound: 'Hero'
+  }
+  new Notification(not).show()
+}
+
 // Setup the app when it's loaded
 app.on('ready', () => {
   // Tray image setup
   let image;
   image = nativeImage.createFromPath(inactiveIconPath)
   tray = new Tray(image)
-
-  // Setup notifications
-  const breakNotification = new Notification({
-    title: 'tomat',
-    body: 'Take a short break.',
-    sound: 'Blow'
-  });
-
-  const startNotification = new Notification({
-    title: 'tomat',
-    body: 'Start a session.',
-    sound: 'absolute/path/to/file.mp3'
-  })
-
-  const longBreakNotification = new Notification({
-    title: 'tomat',
-    body: 'Take a long break.',
-    sound: 'Ping'
-  })
-
-  const disabledNotification = new Notification({
-    title: 'tomat',
-    body: 'tomat disabled.',
-    sound: 'Glass'
-  })
-
-  const enabledNotification = new Notification({
-    title: 'tomat',
-    body: 'tomat enabled.',
-    sound: 'Hero'
-  })
 
   // Handle item menu interactions
   const handleClick = (menuItem, BrowserWindow, event) => {
@@ -235,6 +251,7 @@ function updateTimer() {
       if (activity === 'Session') {
         timer = parseInt(store.get('breakTimer')) * 60
         activity = 'Break'
+
       } // A break has ran out, initiate a session 
       else if (activity === 'Break') {
         timer = parseInt(store.get('sessionTimer')) * 60
