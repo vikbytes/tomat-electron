@@ -49,31 +49,43 @@ let tray; // For tray icon
 let running; // If the clock is running
 let timer; // For user interface, not internal time keeping
 let clock; //Used for internal time keeping, not for user interface
-let mainWindow; // Only window
+let window; // Only window
+let isWindowOpen = false;
 
-// Test
-resetTimer();
+resetTimer()
 
 // Opens the setting windows
 function createWindow() {
-  mainWindow = new BrowserWindow({
-    width: 640,
-    height: 720,
-    show: false,
-    webPreferences: {
-      nodeIntegration: true
-    }
-  })
+  if(isWindowOpen === true) {
+    window.focus()
+  } else {
+    window = new BrowserWindow({
+      width: 640,
+      height: 720,
+      show: false,
+      webPreferences: {
+        nodeIntegration: true
+      }
+    })
+    
   
-  mainWindow.loadFile('index.html')
-  mainWindow.once('ready-to-show', mainWindow.show)
+    window.loadFile('index.html')
+    isWindowOpen = true;
+    window.once('ready-to-show', window.show)
+    
+    // Open new window urls in the user's browser instead of ELectron
+    window.webContents.on('new-window', function(e, url) {
+      e.preventDefault();
+      shell.openExternal(url);
+    })
 
-  // Open new window urls in the user's browser instead of ELectron
-  mainWindow.webContents.on('new-window', function(e, url) {
-    e.preventDefault();
-    shell.openExternal(url);
-  })
+    window.on('closed', (e) => {
+      isWindowOpen = false;
+    })
+  }
 }
+
+
 
 ipcMain.on('load', (event, arg) => {
   event.reply('load-reply', ({
@@ -85,24 +97,27 @@ ipcMain.on('load', (event, arg) => {
   }))
 })
 
-ipcMain.on('start', (event, arg) => {
-  startClock();
-  event.reply('start-reply', {
-    //
-  })
-})
-
-ipcMain.on('pause', (event, arg) => {
-  pauseClock();
-  event.reply('pause-reply', {
-    //
+ipcMain.on('sp', (event, arg) => {
+  if(running === true) {
+    pauseClock();
+    updateIcon('pause', tray)
+    pauseNotification()
+  } else {
+    startClock();
+    updateIcon('start', tray)
+    sessionNotification()
+  }
+  event.reply('sp-reply', {
+    success: true
   })
 })
 
 ipcMain.on('reset', (event, arg) => {
   resetTimer();
+  updateIcon('stop', tray)
+  resetNotification()
   event.reply('reset-reply', {
-    //
+    success: true
   })
 })
 
@@ -130,6 +145,7 @@ ipcMain.on('update', (event, arg) => {
   store.set('sessionTimer', arg.sessionTimer)
   store.set('startHour', arg.startHour)
   store.set('endHour', arg.endHour)
+  resetTimer()
 })
 
 // Setup Notification functions
@@ -143,10 +159,10 @@ function breakNotification() {
   new Notification(not).show()
 }
 
-function startNotification() {
+function sessionNotification() {
   const not = {
     title: 'tomat',
-    body: 'Start a session.',
+    body: 'Session started.',
     sound: 'Blow'
   }
   new Notification(not).show()
@@ -155,28 +171,38 @@ function startNotification() {
 function longBreakNotification() {
   const not = {
     title: 'tomat',
-    body: 'Take a long break.',
+    body: 'Longer break.',
     sound: 'Ping'
   }
   new Notification(not).show()
 }
 
-function disabledNotification() {
+function pauseNotification() {
   const not = {
     title: 'tomat',
-    body: 'tomat disabled.',
+    body: 'tomat paused.',
     sound: 'Glass'
   }
   new Notification(not).show()
 }
 
-function enabledNotification() {
+function resetNotification() {
   const not = {
     title: 'tomat',
-    body: 'tomat enabled.',
+    body: 'tomat reset.',
     sound: 'Hero'
   }
   new Notification(not).show()
+}
+
+function updateIcon(event, tray) {
+  if (event === 'start') {
+    tray.setImage(nativeImage.createFromPath(activeIconPath))
+  } else if (event === 'pause') {
+    tray.setImage(nativeImage.createFromPath(breakIconPath))
+  } else if (event === 'stop') {
+    tray.setImage(nativeImage.createFromPath(inactiveIconPath))
+  }
 }
 
 // Setup the app when it's loaded
@@ -192,13 +218,18 @@ app.on('ready', () => {
       createWindow()
     } else if (menuItem.label === 'Start') {
       startClock()
-      tray.setImage(nativeImage.createFromPath(activeIconPath))
+      updateIcon('start', tray)
+      sessionNotification()
     } else if (menuItem.label === 'Pause') {
-      pauseClock()
-      tray.setImage(nativeImage.createFromPath(breakIconPath))
+      if(running === true) {
+        pauseClock()
+        updateIcon('pause', tray)
+        pauseNotification()
+      }
     } else if (menuItem.label === 'Reset') {
       resetTimer();
-      tray.setImage(nativeImage.createFromPath(inactiveIconPath))
+      updateIcon('stop', tray)
+      resetNotification()
     }
     else {
       console.log(menuItem.label)
@@ -235,11 +266,11 @@ app.on('window-all-closed', () => {
 
 function startClock() {
     clock = setInterval(updateTimer, 1000)
-    running = true
+    running = true;
 }
 
 function pauseClock() {
-  running = false
+    running = false
     clearInterval(clock);
 }
 
@@ -251,17 +282,23 @@ function updateTimer() {
       if (activity === 'Session') {
         timer = parseInt(store.get('breakTimer')) * 60
         activity = 'Break'
-
+        breakNotification()
       } // A break has ran out, initiate a session 
       else if (activity === 'Break') {
         timer = parseInt(store.get('sessionTimer')) * 60
         activity = 'Session'
+        sessionNotification()
       }
     }   
 }
 
 function resetTimer() {
-  running = false
+  if(running === true) {
+    resetNotification()
+  }
+  pauseClock();
     activity = 'Session'
     timer = parseInt(store.get('sessionTimer')) * 60
 }
+
+

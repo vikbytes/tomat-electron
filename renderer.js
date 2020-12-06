@@ -1,7 +1,37 @@
 const {ipcRenderer} = require('electron');
 
+let clock;
+
+
+window.addEventListener('load',
+  function() {
+    updateTimer()
+    startClock();
+    console.log('success')
+});
+
+// Used for the frontend to keep updating from the backend
+function startClock() {
+  updateTimer();
+  clock = setInterval(updateTimer, 17)
+}
+
+function reset() {
+  ipcRenderer.send('reset')
+}
+
+function sp() {
+  ipcRenderer.send('sp')
+}
+
+// Updates the timer variable every second and sends it to the renderer
+function updateTimer() {
+  ipcRenderer.send('timer')
+  ipcRenderer.send('activity')
+  ipcRenderer.send('running')
+}
+
 ipcRenderer.on('load-reply', (event, arg) => {
-  console.log('load-reply')
   document.getElementById('breaklength').value = arg.breakTimer;
   document.getElementById('sessionlength').value = arg.sessionTimer;
   document.getElementById('longbreaklength').value = arg.longBreakTimer;
@@ -33,14 +63,18 @@ ipcRenderer.on('running-reply', (event, arg) => {
   }
 })
 
+ipcRenderer.on('sp-reply', (event, arg) => {
+  if(arg.success === true) {
+    console.log('successful sp command executed')
+  } else {
+    console.log('unsucessful sp command')
+  }
+})
+
 ipcRenderer.on('reset-reply', (event, arg) => {
-  //
-})
-
-ipcRenderer.on('start-reply', (event, arg) => {
-
-})
-
-ipcRenderer.on('pause-reply', (event, arg) => {
-
+  if(arg.success === true) {
+    console.log('successful reset command executed')
+  } else {
+    console.log('unsucessful reset command')
+  }
 })
