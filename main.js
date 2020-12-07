@@ -42,7 +42,9 @@ let state = store.get('state')
 let activity;
 
 // Hide the dock icon on Mac OS
-//app.dock.hide()
+if (process.platform === 'darwin') {
+  app.dock.hide()
+}
 
 // Global state variables
 let tray; // For tray icon
@@ -84,8 +86,6 @@ function createWindow() {
     })
   }
 }
-
-
 
 ipcMain.on('load', (event, arg) => {
   event.reply('load-reply', ({
@@ -258,11 +258,17 @@ app.on('ready', () => {
 })
 
 // Make sure the app quits properly instead of remaining in memory on Mac OS
-app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') {
-    app.quit()
-  }
+app.on('window-all-closed', (e) => {
+    e.preventDefault()
 })
+
+/*
+if (process.platform !== 'darwin') {
+    app.quit()
+  } else {
+    e.preventDefault()
+  }
+*/
 
 function startClock() {
     clock = setInterval(updateTimer, 1000)
