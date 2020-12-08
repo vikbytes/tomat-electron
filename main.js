@@ -19,7 +19,7 @@ const schema = {
   },
   longBreakTimer: {
     type: 'string',
-    default: "15"
+    default: "30"
   },
   sessionTimer: {
     type: 'string',
@@ -32,29 +32,58 @@ const schema = {
   endHour: {
     type: 'string',
     default: "17:00"
+  },
+  ignoreDnD: {
+    type: 'string',
+    default: 'disabled'
+  },
+  sessions: {
+    type: 'string',
+    default: '4'
+  },
+  openAtLogin: {
+    type: 'string',
+    default: 'disabled'
   }
 };
+
+
 
 // Setup electron store
 const store = new Store({schema});
 
-let state = store.get('state')
-let activity;
-
-// Hide the dock icon on Mac OS
-if (process.platform === 'darwin') {
-  app.dock.hide()
-}
-
 // Global state variables
+let activity;
 let tray; // For tray icon
 let running; // If the clock is running
 let timer; // For user interface, not internal time keeping
 let clock; //Used for internal time keeping, not for user interface
 let window; // Only window
 let isWindowOpen = false;
+let sessions; // number of sessions before a long break
 
+// Setup timer defaults
 resetTimer()
+
+// Hide the dock icon on Mac OS
+if (process.platform === 'darwin') {
+  app.dock.hide()
+}
+
+function launchOption() {
+  currentSetting = store.get('openAtLogin')
+  if (currentSetting === 'disabled') {
+    app.setLoginItemSettings({
+      openAtLogin: true
+    })
+    store.set('openAtLogin', 'enabled')
+  } else {
+    app.setLoginItemSettings({
+      openAtLogin: false
+    })
+    store.set('openAtLogin', 'disabled')
+  }
+}
 
 // Opens the setting windows
 function createWindow() {
@@ -87,16 +116,21 @@ function createWindow() {
   }
 }
 
+// Renderer requests the stored information so we provide it
 ipcMain.on('load', (event, arg) => {
   event.reply('load-reply', ({
     breakTimer: store.get('breakTimer'),
     longBreakTimer: store.get('longBreakTimer'),
     sessionTimer: store.get('sessionTimer'),
     startHour: store.get('startHour'),
-    endHour: store.get('endHour')
+    endHour: store.get('endHour'),
+    ignoreDnD: store.get('ignoreDnD'),
+    sessions: store.get('sessions'),
+    openAtLogin: store.get('openAtLogin')
   }))
 })
 
+// Renderer starts/pauses the timer
 ipcMain.on('sp', (event, arg) => {
   if(running === true) {
     pauseClock();
@@ -239,11 +273,7 @@ app.on('ready', () => {
   // Tray menu template
   const contextMenu = Menu.buildFromTemplate([
     { label: 'tomat', type: 'normal', enabled: false},
-    { label: 'About', type: 'normal', role: 'about'},
     { label: 'Settings', type: 'normal', click: handleClick },
-    //{ label: "sep", type: 'separator'},
-    //{ label: 'Enabled', type: 'radio', click: handleClick, checked: (state === 'enabled') ? true : false },
-    //{ label: 'Disabled', type: 'radio', click: handleClick, checked: (state === 'disabled') ? true : false },
     { label: "sep", type: 'separator'},
     { label: 'Start', type: 'normal', click: handleClick},
     { label: 'Pause', type: 'normal', click: handleClick},
@@ -255,20 +285,22 @@ app.on('ready', () => {
   // Setup tray
   tray.setToolTip('tomat')
   tray.setContextMenu(contextMenu)
+  // If we're not on MacOS, make left-clicking the icon open the settings window
+  if (process.platform !== 'darwin') {
+    tray.on('click', (e) => {
+      createWindow();
+    })
+  }
+  
 })
 
-// Make sure the app quits properly instead of remaining in memory on Mac OS
+// Prevents the app from quitting on Linux when closing the settings window
 app.on('window-all-closed', (e) => {
     e.preventDefault()
 })
 
-/*
-if (process.platform !== 'darwin') {
-    app.quit()
-  } else {
-    e.preventDefault()
-  }
-*/
+
+
 
 function startClock() {
     clock = setInterval(updateTimer, 1000)
@@ -283,14 +315,26 @@ function pauseClock() {
 // Updates the timer variable every second and sends it to the renderer
 function updateTimer() {
     timer -= 1;
-    if(timer <= 0) {
-      // A session has ran out, initiate a break
+    if(timer < 0) {
+            // A session has ran out, initiate a break
       if (activity === 'Session') {
-        timer = parseInt(store.get('breakTimer')) * 60
-        activity = 'Break'
-        breakNotification()
+        // check if we need to do a longer break
+        sessions -= 1
+        if (sessions === 0) {
+          timer = parseInt(store.get('longBreakTimer')) * 60
+          activity = 'Long Break'
+          longBreakNotification()
+        } else {
+          timer = parseInt(store.get('breakTimer')) * 60
+          activity = 'Break'
+          breakNotification()
+        }
+        
       } // A break has ran out, initiate a session 
-      else if (activity === 'Break') {
+      else {
+        if (sessions === 0) {
+          sessions = parseInt(store.get('sessions'))
+        }
         timer = parseInt(store.get('sessionTimer')) * 60
         activity = 'Session'
         sessionNotification()
@@ -303,8 +347,9 @@ function resetTimer() {
     resetNotification()
   }
   pauseClock();
-    activity = 'Session'
-    timer = parseInt(store.get('sessionTimer')) * 60
+  activity = 'Session'
+  timer = parseInt(store.get('sessionTimer')) * 60
+  sessions = parseInt(store.get('sessions'))
 }
 
 
