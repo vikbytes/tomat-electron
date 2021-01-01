@@ -245,7 +245,13 @@ app.on('ready', () => {
   let image;
   image = nativeImage.createFromPath(inactiveIconPath)
   tray = new Tray(image)
-
+  let check;
+  
+  if (app.setLoginItemSettings.openAtLogin === false) {
+    check = false
+  } else {
+    check = true
+  }
   // Handle item menu interactions
   const handleClick = (menuItem, BrowserWindow, event) => {
     if (menuItem.label === 'Settings') {
@@ -264,6 +270,16 @@ app.on('ready', () => {
       resetTimer();
       updateIcon('stop', tray)
       resetNotification()
+    } else if (menuItem.label === 'Start on login') {
+      if (menuItem.checked === false) {
+        app.setLoginItemSettings({
+          openAtLogin: true
+        })
+      } else {
+        app.setLoginItemSettings({
+          openAtLogin: false
+        })
+      }
     }
     else {
       console.log(menuItem.label)
@@ -279,6 +295,7 @@ app.on('ready', () => {
     { label: 'Pause', type: 'normal', click: handleClick},
     { label: 'Reset', type: 'normal', click: handleClick},
     { label: "sep", type: 'separator'},
+    { label: 'Start on login', type: 'checkbox', click: handleClick, checked: check},
     { label: "Quit", type: 'normal', role: 'quit'}
   ])
 
