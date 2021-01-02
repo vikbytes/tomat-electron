@@ -69,7 +69,7 @@ resetTimer()
 if (process.platform === 'darwin') {
   app.dock.hide()
 }
-
+/*
 function launchOption() {
   currentSetting = store.get('openAtLogin')
   if (currentSetting === 'disabled') {
@@ -84,6 +84,7 @@ function launchOption() {
     store.set('openAtLogin', 'disabled')
   }
 }
+*/
 
 // Opens the setting windows
 function createWindow() {
@@ -246,8 +247,10 @@ app.on('ready', () => {
   image = nativeImage.createFromPath(inactiveIconPath)
   tray = new Tray(image)
   let check;
-  
-  if (app.setLoginItemSettings.openAtLogin === false) {
+  console.log(app.getLoginItemSettings().openAtLogin)
+  if (app.getLoginItemSettings().openAtLogin === undefined) {
+    check = false
+  } else if (app.getLoginItemSettings().openAtLogin === false) {
     check = false
   } else {
     check = true
@@ -271,13 +274,14 @@ app.on('ready', () => {
       updateIcon('stop', tray)
       resetNotification()
     } else if (menuItem.label === 'Start on login') {
+      
       if (menuItem.checked === false) {
         app.setLoginItemSettings({
-          openAtLogin: true
+          openAtLogin: false
         })
       } else {
         app.setLoginItemSettings({
-          openAtLogin: false
+          openAtLogin: true
         })
       }
     }
