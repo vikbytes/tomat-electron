@@ -1,6 +1,6 @@
 # Tomat
 A pomodoro style timer for help with productive time use.
 
-Currently in development.
-
 Made with Electron.
+
+Go to releases page to download the current version!
