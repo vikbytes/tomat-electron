@@ -178,8 +178,6 @@ ipcMain.on('update', (event, arg) => {
   store.set('breakTimer', arg.breakTimer)
   store.set('longBreakTimer', arg.longBreakTimer)
   store.set('sessionTimer', arg.sessionTimer)
-  store.set('startHour', arg.startHour)
-  store.set('endHour', arg.endHour)
   resetTimer()
 })
 
