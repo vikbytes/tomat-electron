@@ -35,8 +35,6 @@ ipcRenderer.on('load-reply', (event, arg) => {
   document.getElementById('breaklength').value = arg.breakTimer;
   document.getElementById('sessionlength').value = arg.sessionTimer;
   document.getElementById('longbreaklength').value = arg.longBreakTimer;
-  document.getElementById('starthour').value = arg.startHour;
-  document.getElementById('endhour').value = arg.endHour;
 })
 
 ipcRenderer.on('timer-reply', (event, arg) => {

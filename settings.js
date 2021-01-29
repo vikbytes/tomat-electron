@@ -9,9 +9,7 @@ function update() {
   ipcRenderer.send('update', {
     breakTimer: document.getElementById('breaklength').value,
     sessionTimer: document.getElementById('sessionlength').value,
-    longBreakTimer: document.getElementById('longbreaklength').value,
-    startHour: document.getElementById('starthour').value,
-    endHour: document.getElementById('endhour').value
+    longBreakTimer: document.getElementById('longbreaklength').value
   })
 
   document.getElementById('update').innerHTML = "Updated!";
