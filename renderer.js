@@ -2,7 +2,6 @@ const {ipcRenderer} = require('electron');
 
 let clock;
 
-
 window.addEventListener('load',
   function() {
     updateTimer()
