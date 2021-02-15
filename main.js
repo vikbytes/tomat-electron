@@ -1,6 +1,7 @@
 const { app, BrowserWindow, Menu, Tray, nativeImage, Notification, ipcMain, shell } = require('electron');
 const path = require('path')
 const Store = require('electron-store');
+const { env } = require('process');
 
 // Icon imports
 const activeIconPath = path.join(__dirname, 'assets/tomat-active.png')
@@ -94,7 +95,10 @@ function createWindow() {
     window = new BrowserWindow({
       width: 640,
       height: 720,
+      maxHeight: 720,
+      maxWidth:640,
       show: false,
+      frame:false,
       webPreferences: {
         nodeIntegration: true
       }
@@ -103,6 +107,12 @@ function createWindow() {
   
     window.loadFile('index.html')
     isWindowOpen = true;
+    
+    /*
+    win.webContents.openDevTools()
+    IF ENVIRONMENT IS DEV
+    */
+
     window.once('ready-to-show', window.show)
     
     // Open new window urls in the user's browser instead of ELectron
@@ -318,8 +328,13 @@ app.on('window-all-closed', (e) => {
     e.preventDefault()
 })
 
-
-
+/*
+app.on('activate', () => {
+  if (BrowserWindow.getAllWindows().length === 0) {
+    createWindow();
+  }
+})
+*/
 
 function startClock() {
     clock = setInterval(updateTimer, 1000)
