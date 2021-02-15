@@ -9,6 +9,7 @@ const inactiveIconPath = path.join(__dirname, 'assets/tomat-inactive.png')
 const breakIconPath = path.join(__dirname, 'assets/tomat-break.png')
 
 // Settings schema for the electron-store
+// Used to save settings when app is closed
 const schema = {
   state: {
     type: 'string',
@@ -48,8 +49,6 @@ const schema = {
   }
 };
 
-
-
 // Setup electron store
 const store = new Store({schema});
 
@@ -66,26 +65,10 @@ let sessions; // number of sessions before a long break
 // Setup timer defaults
 resetTimer()
 
-// Hide the dock icon on Mac OS
+// Hide the dock icon on Mac OS so it lives in the tray only
 if (process.platform === 'darwin') {
   app.dock.hide()
 }
-/*
-function launchOption() {
-  currentSetting = store.get('openAtLogin')
-  if (currentSetting === 'disabled') {
-    app.setLoginItemSettings({
-      openAtLogin: true
-    })
-    store.set('openAtLogin', 'enabled')
-  } else {
-    app.setLoginItemSettings({
-      openAtLogin: false
-    })
-    store.set('openAtLogin', 'disabled')
-  }
-}
-*/
 
 // Opens the setting windows
 function createWindow() {
@@ -157,6 +140,7 @@ ipcMain.on('sp', (event, arg) => {
   })
 })
 
+// Renderer resets the timer
 ipcMain.on('reset', (event, arg) => {
   resetTimer();
   updateIcon('stop', tray)
@@ -166,24 +150,28 @@ ipcMain.on('reset', (event, arg) => {
   })
 })
 
+// Renderer requests the timer value
 ipcMain.on('timer', (event, arg) => {
   event.reply('timer-reply', ({
     timer: timer
   }))
 })
 
+// Renderer requests the current activity
 ipcMain.on('activity', (event, arg) => {
   event.reply('activity-reply', ({
     activity: activity
   }))
 })
 
+// Renderer requests the current running state
 ipcMain.on('running', (event, arg) => {
   event.reply('running-reply', ({
     running: running
   }))
 })
 
+// Renderer requests an update on the timers
 ipcMain.on('update', (event, arg) => {
   store.set('breakTimer', arg.breakTimer)
   store.set('longBreakTimer', arg.longBreakTimer)
@@ -191,8 +179,8 @@ ipcMain.on('update', (event, arg) => {
   resetTimer()
 })
 
-// Setup Notification functions
 
+// Setup Notification functions
 function breakNotification() {
   const not = {
     title: 'tomat',
@@ -238,6 +226,7 @@ function resetNotification() {
   new Notification(not).show()
 }
 
+// Used to update the tray icon depending on which activity we are currently in
 function updateIcon(event, tray) {
   if (event === 'start') {
     tray.setImage(nativeImage.createFromPath(activeIconPath))
@@ -255,7 +244,7 @@ app.on('ready', () => {
   image = nativeImage.createFromPath(inactiveIconPath)
   tray = new Tray(image)
   let check;
-  console.log(app.getLoginItemSettings().openAtLogin)
+  // If we got saved openAtLogin setting extract it here
   if (app.getLoginItemSettings().openAtLogin === undefined) {
     check = false
   } else if (app.getLoginItemSettings().openAtLogin === false) {
@@ -282,7 +271,7 @@ app.on('ready', () => {
       updateIcon('stop', tray)
       resetNotification()
     } else if (menuItem.label === 'Start on login') {
-      
+      // Enable or disable start on login
       if (menuItem.checked === false) {
         app.setLoginItemSettings({
           openAtLogin: false
@@ -292,9 +281,6 @@ app.on('ready', () => {
           openAtLogin: true
         })
       }
-    }
-    else {
-      console.log(menuItem.label)
     }
   }
 
@@ -315,26 +301,18 @@ app.on('ready', () => {
   tray.setToolTip('tomat')
   tray.setContextMenu(contextMenu)
   // If we're not on MacOS, make left-clicking the icon open the settings window
+  // as this would be the expected behaviour on Linux and Windows
   if (process.platform !== 'darwin') {
     tray.on('click', (e) => {
       createWindow();
     })
   }
-  
 })
 
 // Prevents the app from quitting on Linux when closing the settings window
 app.on('window-all-closed', (e) => {
     e.preventDefault()
 })
-
-/*
-app.on('activate', () => {
-  if (BrowserWindow.getAllWindows().length === 0) {
-    createWindow();
-  }
-})
-*/
 
 function startClock() {
     clock = setInterval(updateTimer, 1000)
@@ -385,5 +363,3 @@ function resetTimer() {
   timer = parseInt(store.get('sessionTimer')) * 60
   sessions = parseInt(store.get('sessions'))
 }
-
-
