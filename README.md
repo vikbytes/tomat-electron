@@ -10,6 +10,13 @@
 
 > A pomodoro style productivity timer.
 
+## Screenshots
+<img src="./img/settings-screenshot.png" />
+<img src="./img/tray-screenshot.png" />
+
+## Releases
+Current release binaries are available under Releases.
+
 ## Compile yourself
 Make sure you have npm installed.
 
@@ -17,7 +24,7 @@ Make sure you have npm installed.
 npm install
 ```
 
-Depending on your platform you want to use the corresponding flag: [m]ac, [w]indows or [l]inux.
+Depending on your platform you want to use the corresponding flag: **m**ac, **w**indows or **l**inux.
 ```
 electron-builder -mwl
 ```
