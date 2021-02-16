@@ -7,6 +7,7 @@
     <img alt="Twitter: vikbytes" src="https://img.shields.io/twitter/follow/vikbytes.svg?style=social" />
   </a>
 </p>
+[![NPM Version][npm-image]][npm-url]
 
 > A pomodoro style productivity timer.
 
@@ -36,3 +37,6 @@ electron-builder -mwl
 * Website: https://www.vikbytes.com
 * Twitter: [@vikbytes](https://twitter.com/vikbytes)
 * Github: [@vikbytes](https://github.com/vikbytes)
+
+[npm-image]: https://img.shields.io/npm/v/datadog-metrics.svg?style=flat-square
+[npm-url]: https://npmjs.org/package/datadog-metrics
