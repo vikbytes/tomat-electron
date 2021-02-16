@@ -36,7 +36,3 @@ electron-builder -mwl
 * Website: https://www.vikbytes.com
 * Twitter: [@vikbytes](https://twitter.com/vikbytes)
 * Github: [@vikbytes](https://github.com/vikbytes)
-
-## Show your support
-
-Give a ⭐️ if this project helped you!
