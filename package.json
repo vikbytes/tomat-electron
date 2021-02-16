@@ -1,6 +1,6 @@
 {
   "name": "tomat-electron",
-  "version": "1.0.0",
+  "version": "1.0.3",
   "description": "A pomodoro style productivity timer.",
   "homepage": "https://vikbytes.com/tomat",
   "main": "main.js",
