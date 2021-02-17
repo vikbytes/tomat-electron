@@ -7,6 +7,7 @@ const { env } = require('process');
 const activeIconPath = path.join(__dirname, 'assets/tomat-active.png')
 const inactiveIconPath = path.join(__dirname, 'assets/tomat-inactive.png')
 const breakIconPath = path.join(__dirname, 'assets/tomat-break.png')
+const pausedIconPath = path.join(__dirname, 'assets/tomat-paused.png')
 
 // Settings schema for the electron-store
 // Used to save settings when app is closed
@@ -77,11 +78,11 @@ function createWindow() {
   } else {
     window = new BrowserWindow({
       width: 640,
-      height: 720,
-      maxHeight: 720,
+      height: 640,
+      maxHeight: 640,
       maxWidth:640,
       show: false,
-      frame:false,
+      frame:false, // Removes the OS border
       webPreferences: {
         nodeIntegration: true
       }
@@ -143,7 +144,7 @@ ipcMain.on('sp', (event, arg) => {
 // Renderer resets the timer
 ipcMain.on('reset', (event, arg) => {
   resetTimer();
-  updateIcon('stop', tray)
+  updateIcon('inactive', tray)
   resetNotification()
   event.reply('reset-reply', {
     success: true
@@ -202,7 +203,7 @@ function sessionNotification() {
 function longBreakNotification() {
   const not = {
     title: 'tomat',
-    body: 'Longer break.',
+    body: 'Take a long break.',
     sound: 'Ping'
   }
   new Notification(not).show()
@@ -220,7 +221,7 @@ function pauseNotification() {
 function resetNotification() {
   const not = {
     title: 'tomat',
-    body: 'tomat reset.',
+    body: 'tomat inactive.',
     sound: 'Hero'
   }
   new Notification(not).show()
@@ -231,8 +232,10 @@ function updateIcon(event, tray) {
   if (event === 'start') {
     tray.setImage(nativeImage.createFromPath(activeIconPath))
   } else if (event === 'pause') {
+    tray.setImage(nativeImage.createFromPath(pausedIconPath))
+  } else if (event === 'break') {
     tray.setImage(nativeImage.createFromPath(breakIconPath))
-  } else if (event === 'stop') {
+  } else if (event === 'inactive') {
     tray.setImage(nativeImage.createFromPath(inactiveIconPath))
   }
 }
@@ -253,6 +256,7 @@ app.on('ready', () => {
     check = true
   }
   // Handle item menu interactions
+  // TODO: Make control checks so you can't click stuff for states that are currently the active one
   const handleClick = (menuItem, BrowserWindow, event) => {
     if (menuItem.label === 'Settings') {
       createWindow()
@@ -268,7 +272,7 @@ app.on('ready', () => {
       }
     } else if (menuItem.label === 'Reset') {
       resetTimer();
-      updateIcon('stop', tray)
+      updateIcon('inactive', tray)
       resetNotification()
     } else if (menuItem.label === 'Start on login') {
       // Enable or disable start on login
@@ -333,10 +337,12 @@ function updateTimer() {
         // check if we need to do a longer break
         sessions -= 1
         if (sessions === 0) {
+          updateIcon('break', tray)
           timer = parseInt(store.get('longBreakTimer')) * 60
           activity = 'Long Break'
           longBreakNotification()
         } else {
+          updateIcon('break', tray)
           timer = parseInt(store.get('breakTimer')) * 60
           activity = 'Break'
           breakNotification()
@@ -344,6 +350,7 @@ function updateTimer() {
         
       } // A break has ran out, initiate a session 
       else {
+        updateIcon('start', tray)
         if (sessions === 0) {
           sessions = parseInt(store.get('sessions'))
         }
