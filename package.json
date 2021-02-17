@@ -1,6 +1,6 @@
 {
   "name": "tomat-electron",
-  "version": "1.0.3",
+  "version": "1.1.0",
   "description": "A pomodoro style productivity timer.",
   "homepage": "https://vikbytes.com/tomat",
   "main": "main.js",
@@ -17,7 +17,7 @@
   "build": {
     "appId": "com.vikbytes.tomat-electron",
     "productName": "tomat",
-    "copyright": " Copyright © 2020 Viktor Andersson"
+    "copyright": " Copyright © 2021 Viktor Andersson"
   },
   "dependencies": {
     "electron-store": "^6.0.1"
