@@ -82,7 +82,7 @@ function createWindow() {
       maxHeight: 640,
       maxWidth:640,
       show: false,
-      frame:false, // Removes the OS border
+      //frame:false, // Removes the OS border
       webPreferences: {
         nodeIntegration: true
       }
