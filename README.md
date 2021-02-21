@@ -1,7 +1,7 @@
 <h1 align="center">tomat</h1>
 <p>
   <a href="#" target="_blank">
-    <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-yellow.svg" />
+    <img alt="License: MIT" src="https://img.shields.io/github/license/vikbytes/tomat-electron?style=for-the-badge" />
   </a>
 </p>
 
@@ -16,15 +16,10 @@ Current release binaries are available under Releases.
 
 ## Compile yourself
 Make sure you have npm installed.
-
-```sh
-npm install
-```
-
-Depending on your platform you want to use the corresponding flag: **m**ac, **w**indows or **l**inux.
-```sh
-electron-builder -mwl
-```
+- `npm install` install dependencies
+- `electron-builder -mwl` with corresponding flag for your platform
+m for Mac, w for Windows, and l for Linux.
+Your build will end up in the dist folder.
 
 ## Contact
 * Website: [homepage](https://www.vikbytes.com)
