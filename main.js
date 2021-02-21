@@ -91,11 +91,6 @@ function createWindow() {
   
     window.loadFile('index.html')
     isWindowOpen = true;
-    
-    /*
-    win.webContents.openDevTools()
-    IF ENVIRONMENT IS DEV
-    */
 
     window.once('ready-to-show', window.show)
     
@@ -256,7 +251,6 @@ app.on('ready', () => {
     check = true
   }
   // Handle item menu interactions
-  // TODO: Make control checks so you can't click stuff for states that are currently the active one
   const handleClick = (menuItem, BrowserWindow, event) => {
     if (menuItem.label === 'Settings') {
       createWindow()
