@@ -22,9 +22,17 @@ m for Mac, w for Windows, and l for Linux.
 Your build will end up in the dist folder.
 
 ## Built with
-<img src="./img/electronjs.png" width=128px height=128px />
-<img src="./img/js.png" width=128px height=128px />
-<img src="./img/nodejs.png" width=128px height=128px />
+<p float="left">
+  <a href="https://www.electronjs.org/" target="_blank">
+    <img src="./img/electronjs.png" width=128px height=128px />
+  </a>
+  <a href="https://en.wikipedia.org/wiki/JavaScript" target="_blank">
+    <img src="./img/js.png" width=128px height=128px />
+  </a>
+  <a href="https://nodejs.org/en/" target="_blank">
+    <img src="./img/nodejs.png" width=128px height=128px />
+  </a>
+</p>
 
 ## Contact
 * Website: [homepage](https://www.vikbytes.com)
