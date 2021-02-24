@@ -21,7 +21,11 @@ Make sure you have npm installed.
 m for Mac, w for Windows, and l for Linux.
 Your build will end up in the dist folder.
 
+## Built with
+<img src="./img/electronjs.png" width=128px height=128px />
+<img src="./img/js.png" width=128px height=128px />
+<img src="./img/nodejs.png" width=128px height=128px />
+
 ## Contact
 * Website: [homepage](https://www.vikbytes.com)
 * Twitter: [@vikbytes](https://twitter.com/vikbytes)
-* Github: [@vikbytes](https://github.com/vikbytes)
