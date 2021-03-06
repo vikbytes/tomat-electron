@@ -12,7 +12,8 @@
   "license": "MIT",
   "devDependencies": {
     "electron": "^10.1.5",
-    "electron-reloader": "^1.0.1"
+    "electron-reloader": "^1.0.1",
+    "prettier": "^2.2.1"
   },
   "build": {
     "appId": "com.vikbytes.tomat-electron",

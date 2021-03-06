@@ -1,7 +1,7 @@
 body {
   margin: 20px 20px 20px 20px;
   max-width: 640px;
-  line-height: 1.2; 
+  line-height: 1.2;
   font-size: 16px;
   color: rgb(222, 222, 222);
   background-color: rgb(33, 33, 33);
@@ -31,7 +31,7 @@ ul {
 
 .links {
   font-size: 24px;
-  color: #000000
+  color: #000000;
 }
 
 * {
@@ -41,7 +41,7 @@ ul {
 a {
   color: rgb(233, 113, 0);
   text-decoration: none;
-  transition: color .3s;
+  transition: color 0.3s;
 }
 
 a:visited {
@@ -49,7 +49,7 @@ a:visited {
 }
 
 a:hover {
-  transition: color .3s;
+  transition: color 0.3s;
   text-decoration: underline;
   color: rgb(255, 172, 94);
 }
