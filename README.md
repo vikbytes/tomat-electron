@@ -14,7 +14,7 @@
 
 ## Releases
 
-Current release binaries are available under Releases.
+Current binaries are available under Releases.
 
 ## Compile yourself
 
@@ -23,19 +23,20 @@ Make sure you have npm installed.
 - `npm install` install dependencies
 - `electron-builder -mwl` with corresponding flag for your platform:
   m for Mac, w for Windows, and l for Linux.
-  Your build will end up in the dist folder.
+  
+Your build will end up in the dist folder.
 
 ## Built with
 
 <p float="left">
   <a href="https://www.electronjs.org/" target="_blank">
-    <img src="./img/electronjs.png" width=64px height=64px />
+    <img src="./img/electronjs.png" width=48px height=48px />
   </a>
   <a href="https://en.wikipedia.org/wiki/JavaScript" target="_blank">
-    <img src="./img/js.png" width=64px height=64px />
+    <img src="./img/js.png" width=48px height=48px />
   </a>
   <a href="https://nodejs.org/en/" target="_blank">
-    <img src="./img/nodejs.png" width=64px height=64px />
+    <img src="./img/nodejs.png" width=48px height=48px />
   </a>
 </p>
 
