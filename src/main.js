@@ -150,12 +150,18 @@ ipcMain.on("sp", (event, arg) => {
 
 // Renderer resets the timer
 ipcMain.on("reset", (event, arg) => {
-  resetTimer();
-  updateIcon("inactive", tray);
-  resetNotification();
-  event.reply("reset-reply", {
-    success: true,
-  });
+  if (running === true) {
+    resetTimer();
+    updateIcon("inactive", tray);
+    resetNotification();
+    event.reply("reset-reply", {
+      success: true,
+    });
+  } else {
+    event.reply("reset-reply", {
+      success: false,
+    });
+  }
 });
 
 // Renderer requests the timer value
@@ -266,9 +272,11 @@ app.on("ready", () => {
     if (menuItem.label === "Settings") {
       createWindow();
     } else if (menuItem.label === "Start") {
-      startClock();
-      updateIcon("start", tray);
-      sessionNotification();
+      if (running !== true) {
+        startClock();
+        updateIcon("start", tray);
+        sessionNotification();
+      }
     } else if (menuItem.label === "Pause") {
       if (running === true) {
         pauseClock();
