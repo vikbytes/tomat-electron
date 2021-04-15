@@ -210,7 +210,7 @@ function longBreakNotification() {
   const not = {
     title: "tomat",
     body: "Take a long break.",
-    sound: "Ping",
+    sound: "Blow",
   };
   new Notification(not).show();
 }
@@ -219,7 +219,7 @@ function pauseNotification() {
   const not = {
     title: "tomat",
     body: "tomat paused.",
-    sound: "Glass",
+    sound: "Blow",
   };
   new Notification(not).show();
 }
@@ -228,7 +228,7 @@ function resetNotification() {
   const not = {
     title: "tomat",
     body: "tomat inactive.",
-    sound: "Hero",
+    sound: "Blow",
   };
   new Notification(not).show();
 }
