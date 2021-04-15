@@ -23,7 +23,7 @@ Make sure you have npm installed.
 - `npm install` install dependencies
 - `electron-builder -mwl` with corresponding flag for your platform:
   m for Mac, w for Windows, and l for Linux.
-  
+
 Your build will end up in the dist folder.
 
 ## Built with

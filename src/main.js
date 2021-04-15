@@ -97,7 +97,7 @@ function createWindow() {
       },
     });
 
-    window.loadFile("index.html");
+    window.loadFile(path.join(__dirname, "index.html"));
     isWindowOpen = true;
 
     window.once("ready-to-show", window.show);
