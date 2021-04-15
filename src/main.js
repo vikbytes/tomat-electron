@@ -90,8 +90,8 @@ function createWindow() {
     window.focus();
   } else {
     window = new BrowserWindow({
-      width: 640,
-      height: 640,
+      width: 400,
+      height: 500,
       maxHeight: 640,
       maxWidth: 640,
       show: false,
