@@ -25,6 +25,7 @@ ul {
 }
 
 .title {
+  margin-left: 15px;
   font-size: 48px;
   color: #ff3c00;
 }
@@ -59,9 +60,13 @@ a:active {
 }
 
 .footer {
-  font-size: 18px;
+  font-size: 14px;
 }
 
 .timer {
   font-size: 72px;
+}
+
+.header {
+  display: flex;
 }

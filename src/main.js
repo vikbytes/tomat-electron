@@ -12,6 +12,10 @@ const path = require("path");
 const Store = require("electron-store");
 const { env } = require("process");
 
+try {
+  require("electron-reloader")(module);
+} catch (_) {}
+
 // Icon imports
 const activeIconPath = path.join(__dirname, "assets/tomat-active.png");
 const inactiveIconPath = path.join(__dirname, "assets/tomat-inactive.png");
