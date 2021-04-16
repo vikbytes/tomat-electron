@@ -1,4 +1,4 @@
-<img src="./src/assets/icon.png" />
+<img src="./src/assets/icon.png" width=48px height=48px/>
 <h1 align="center">tomat</h1>
 <p>
   <a href="#" target="_blank">
