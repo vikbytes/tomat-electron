@@ -1,3 +1,4 @@
+<img src="./src/assets/icon.png" />
 <h1 align="center">tomat</h1>
 <p>
   <a href="#" target="_blank">
@@ -21,26 +22,26 @@ Current binaries are available under Releases.
 Make sure you have npm installed.
 
 - `npm install` install dependencies
-- `electron-builder -mwl` with corresponding flag for your platform:
+- `npx electron-builder -mwl` with corresponding flag for your platform:
   m for Mac, w for Windows, and l for Linux.
 
 Your build will end up in the dist folder.
 
 ## Built with
 
-<p float="left">
-  <a href="https://www.electronjs.org/" target="_blank">
-    <img src="./img/electronjs.png" width=48px height=48px />
+<div float="left">
+  <a href="https://www.electronjs.org/">
+    <img src="./img/electronjs.png" width=72px height=72px />
   </a>
-  <a href="https://en.wikipedia.org/wiki/JavaScript" target="_blank">
-    <img src="./img/js.png" width=48px height=48px />
+  <a href="https://en.wikipedia.org/wiki/JavaScript">
+    <img src="./img/js.png" width=72px height=72px />
   </a>
-  <a href="https://nodejs.org/en/" target="_blank">
-    <img src="./img/nodejs.png" width=48px height=48px />
+  <a href="https://nodejs.org/en/">
+    <img src="./img/nodejs.png" width=72px height=72px />
   </a>
-</p>
+</div>
 
 ## Contact
 
-- Website: [homepage](https://www.vikbytes.com)
+- Website: [https://www.vikbytes.com](https://www.vikbytes.com)
 - Twitter: [@vikbytes](https://twitter.com/vikbytes)
